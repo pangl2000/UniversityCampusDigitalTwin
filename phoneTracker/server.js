@@ -75,6 +75,8 @@ app.patch('/patchData', async (req, res) => {
     const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinUser:PhoneManny/attrs';
     const data = req.body; // The data to patch
 
+    delete data.id;
+    
     try {
         const response = await axios.patch(url, data, {
             headers: {
