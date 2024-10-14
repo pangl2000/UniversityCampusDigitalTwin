@@ -6,7 +6,9 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
-const PORT = 8080; // You can choose a different port if necessary
+
+// Use the port provided by Replit or default to 8080
+const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors({
@@ -86,7 +88,7 @@ app.patch('/patchData', async (req, res) => {
     }
 });
 
-// Start the server
-app.listen(PORT, () => {
+// Start the server, binding to 0.0.0.0 and the dynamic port provided by Replit
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
