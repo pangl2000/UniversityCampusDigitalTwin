@@ -76,6 +76,7 @@ app.patch('/patchData', async (req, res) => {
     const data = req.body; // The data to patch
 
     delete data.id;
+    delete data.type;
     
     try {
         const response = await axios.patch(url, data, {
