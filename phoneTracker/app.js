@@ -105,8 +105,8 @@ async function uploadData(position) {
 
     const oldData = await getData();
     if (oldData !== null) {
-        lat_old = oldData['x']['value'];
-        lon_old = oldData['y']['value'];
+        lat_old = oldData['lat']['value'];
+        lon_old = oldData['lon']['value'];
     }
 
     const data = generateData(lat, lon, lat_old, lon_old);
