@@ -1,79 +1,30 @@
-const apiKey = 'AIzaSyCLAWIkU-GBgvdeIo7vMlgASFZQEp55RZo';
-const originLatitude = 38.285720;
-const originLongitude = 21.789350;
-
-// Function to get elevation from Google Maps API
-async function getElevation(lat, lng) {
-    const url = `https://maps.googleapis.com/maps/api/elevation/json?locations=${lat},${lng}&key=${apiKey}`;
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.results && data.results.length > 0) {
-            return data.results[0].elevation;
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.error('Error fetching elevation data:', error);
-        return null;
-    }
-}
-
-// Function to convert latitude and longitude to UTM coordinates
-function latlonToUtm(latitude, longitude) {
-    const utmProjection = "+proj=utm +zone=34 +ellps=WGS84 +units=m +no_defs";
-    const [utmX, utmY] = proj4(utmProjection, [longitude, latitude]);
-    return { utmX, utmY };
-}
-
-// Function to calculate fixed Unreal Engine units
-function fixedUEngineUnits(lat, lon) {
-    const origin = latlonToUtm(originLatitude, originLongitude);
-    const real = latlonToUtm(lat, lon);
-    const fixedX = real.utmX - origin.utmX;
-    const fixedY = origin.utmY - real.utmY;
-    return { fixedX, fixedY };
-}
-
 // Function to generate data to post
-function generateData(x, y, z, x_old, y_old, z_old) {
+function generateData(lat, lon, lat_old, lon_old) {
     return {
-        "id": "DigitalTwinUser:PhoneManny",
-        "type": "User",
-        "x": {
+        "id": "DigitalTwinData:Phone",
+        "type": "Data",
+        "lat": {
             "type": "Number",
-            "value": x  // Longitude
+            "value": lat  // Longitude
         },
-        "y": {
+        "lon": {
             "type": "Number",
-            "value": y  // Latitude
+            "value": lon  // Latitude
         },
-        "z": {
+        "lat_old": {
             "type": "Number",
-            "value": z  // Altitude
+            "value": lat_old
         },
-        "x_old": {
+        "lon_old": {
             "type": "Number",
-            "value": x_old
-        },
-        "y_old": {
-            "type": "Number",
-            "value": y_old
-        },
-        "z_old": {
-            "type": "Number",
-            "value": z_old
-        },
-        "area": {
-            "type": "Text",
-            "value": "Unknown"
+            "value": lon_old
         }
     };
 }
 
 // Function to send an HTTP GET request to retrieve data
 async function getData() {
-    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinUser:PhoneManny';
+    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinData:Phone';
     const statusElement = document.getElementById('status');
 
     try {
@@ -123,7 +74,7 @@ async function postData(data) {
 
 // Function to send data to the context broker via PATCH
 async function patchData(data) {
-    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinUser:PhoneManny/attrs';
+    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinData:Phone/attrs';
     const statusElement = document.getElementById('status');
     
     try {
@@ -149,18 +100,15 @@ async function patchData(data) {
 async function uploadData(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
-    const alt = await getElevation(lat, lon);
-    const { utmX, utmY } = fixedUEngineUnits(lat, lon);
-    let x_old = 0, y_old = 0, z_old = 0;
+    let lat_old = 0, lon_old = 0;
     
     const oldData = await getData();
     if (oldData !== null) {
-        x_old = oldData['x']['value'];
-        y_old = oldData['y']['value'];
-        z_old = oldData['z']['value'];
+        lat_old = oldData['lat']['value'];
+        lon_old = oldData['lon']['value'];
     }
 
-    const data = generateData(utmX, utmY, alt, x_old, y_old, z_old);
+    const data = generateData(lat, lon, lat_old, lon_old);
 
     if (oldData === null) {
         await postData(data);
