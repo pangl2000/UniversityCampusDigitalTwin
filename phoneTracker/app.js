@@ -1,11 +1,12 @@
+const apiKey = 'AIzaSyCLAWIkU-GBgvdeIo7vMlgASFZQEp55RZo';
 const originLatitude = 38.285720;
 const originLongitude = 21.789350;
 
-// Function to get elevation through a proxy server
+// Function to get elevation from Google Maps API
 async function getElevation(lat, lng) {
-    const proxyUrl = `/get-elevation?lat=${lat}&lng=${lng}`;  // Assuming you set up a proxy
+    const url = `https://maps.googleapis.com/maps/api/elevation/json?locations=${lat},${lng}&key=${apiKey}`;
     try {
-        const response = await fetch(proxyUrl);
+        const response = await fetch(url);
         const data = await response.json();
         if (data.results && data.results.length > 0) {
             return data.results[0].elevation;
