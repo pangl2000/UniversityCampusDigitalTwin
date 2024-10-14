@@ -24,7 +24,7 @@ function generateData(x, y, x_old, y_old) {
 
 // Function to send an HTTP GET request to retrieve data
 async function getData() {
-    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinPrivateData:Phone';
+    const url = 'https://150.140.186.118:1026/v2/entities/DigitalTwinPrivateData:Phone';
     const statusElement = document.getElementById('status');
 
     try {
@@ -50,7 +50,7 @@ async function getData() {
 
 // Function to send data to the context broker via POST
 async function postData(data) {
-    const url = 'http://150.140.186.118:1026/v2/entities/';
+    const url = 'https://150.140.186.118:1026/v2/entities/';
     const statusElement = document.getElementById('status');
     
     try {
@@ -74,7 +74,7 @@ async function postData(data) {
 
 // Function to send data to the context broker via PATCH
 async function patchData(data) {
-    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinPrivateData:Phone/attrs';
+    const url = 'https://150.140.186.118:1026/v2/entities/DigitalTwinPrivateData:Phone/attrs';
     const statusElement = document.getElementById('status');
     
     try {
