@@ -4,7 +4,7 @@ const originLongitude = 21.789350;
 
 // Function to get elevation from Google Maps API
 async function getElevation(lat, lng) {
-    const url = `https://maps.googleapis.com/maps/api/elevation/json?locations=${lat},${lng}&key=${apiKey}`;
+    const url = `http://localhost:3000/api/elevation?lat=${lat}&lng=${lng}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
