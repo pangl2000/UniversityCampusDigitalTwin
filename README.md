@@ -1,43 +1,47 @@
-## Download
-1. Download all files from github repository and also download the large files from the link in LargeFilesLink.txt
-2. Place the folders downloaded in the root directory
+# Project Setup Guide
 
-## Installation
-1. To install the required packages, run the following commands in the cmd:
+This guide will walk you through downloading the necessary files, installing dependencies, and running the project. Additionally, instructions for using phone location tracking are provided.
 
-```bash
-pip install Flask
-```
-```bash
-pip install pymongo
-```
-```bash
-pip install bson
-```
-```bash
-pip install Flask-RESTful
-```
-```bash
-pip install aiohttp
-```
-```bash
-pip install schedule
-```
-```bash
-pip install requests
-```
-```bash
-pip install pyproj==1.8.5
-```
-```bash
-pip install shapely
-```
+## 📥 Download
 
-2. Also, in the externalDB folder open cmd and run once:
-```bash
-docker-compose up --build
-```
+1. **Download all files** from this GitHub repository.
+2. **Download large files** from the link provided in `LargeFilesLink.txt`.
+3. **Place all downloaded folders** in the project's root directory.
 
-## Run
-1. Everytime you want start the project, just run the run_project.bat
-2. When you want to close the project, run terminate_all.bat
+## 🛠 Installation
+
+To install the required packages, follow these steps:
+
+1. Open a terminal or command prompt and run the following commands to install dependencies:
+
+    ```bash
+    pip install Flask
+    pip install pymongo
+    pip install bson
+    pip install Flask-RESTful
+    pip install aiohttp
+    pip install schedule
+    pip install requests
+    pip install pyproj==1.8.5
+    pip install shapely
+    ```
+
+2. Navigate to the `externalDB` folder, open a command prompt, and run the following command to set up the database:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+## 🚀 Run the Project
+
+1. **To start the project**, simply run the `run_project.bat` file.
+2. **To stop the project**, run the `terminate_all.bat` file.
+
+## 📱 Phone Location Tracking (Optional)
+
+If you want to use your phone's location in the project, follow these steps:
+
+1. Create a **Replit** account.
+2. Copy the `phoneTracker` folder into your Replit account.
+3. Access your Replit account from your phone's browser.
+4. Run the code to start tracking your phone's location.
