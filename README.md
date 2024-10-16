@@ -1,3 +1,8 @@
+## Installation
+
+To install the required packages, run the following commands:
+
+```bash
 pip install Flask
 pip install pymongo
 pip install bson
