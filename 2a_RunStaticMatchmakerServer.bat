@@ -1,0 +1,1 @@
+.\PixelStreamingMultipleStatic\Windows\StaticModel\Samples\PixelStreaming\WebServers\Matchmaker\platform_scripts\cmd\run.bat -File --HttpPort 81 --MatchmakerPort 9999

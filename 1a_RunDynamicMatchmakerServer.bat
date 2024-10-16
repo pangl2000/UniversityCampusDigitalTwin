@@ -1,0 +1,1 @@
+.\PixelStreamingMultipleDynamic\Windows\DynamicModel\Samples\PixelStreaming\WebServers\Matchmaker\platform_scripts\cmd\run.bat -File --HttpPort 80 --MatchmakerPort 9998

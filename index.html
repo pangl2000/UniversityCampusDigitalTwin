@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D World Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Moment.js -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+    <!-- Add Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script>
+
+    <!-- Add Chart.js Moment Adapter -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <div id="main-container">
+            <h1>Welcome to the 3D World Viewer</h1>
+            <p>Explore our dynamic and static 3D environments of the university campus.</p>
+            <button id="enter-overview">Enter Overview</button>
+        </div>
+    </div>
+
+    <!-- Overview Page -->
+    <div id="overview-page" class="page">
+        <h1>Overview</h1>
+        <p>Discover the university campus in two modes: a dynamic live view with real-time movement data, or a static view where you can explore the high-resolution 3D environment.</p>
+        
+        <div id="overview-controls">
+            <button id="explore-static">Explore Static Model</button>
+            <button id="explore-dynamic">Explore Dynamic Model</button>
+        </div>
+
+        <!-- New Descriptive Boxes -->
+        <div id="description-container">
+            <!-- Static Model Description Box -->
+            <div class="description-box">
+                <h2>Static Model</h2>
+                <p>Explore the university campus in a high-resolution 3D model. This model is static and allows you to closely examine different areas with precise detail.</p>
+            </div>
+
+            <!-- Dynamic Model Description Box -->
+            <div class="description-box">
+                <h2>Dynamic Model</h2>
+                <p>Engage with the live model of the campus that shows real-time movement data. Watch the campus come alive with dynamic movements and interactions.</p>
+            </div>
+        </div>
+
+        <div id="wifi-section">
+            <p>Additionally, explore WiFi data.</p>
+            <button id="view-wifi">WiFi Data</button>
+        </div>
+    </div>
+
+    <!-- Static Model Stream Page -->
+    <div id="static-page" class="page">
+        <h1>Static Model Stream</h1>
+        <iframe src="http://localhost:81"></iframe>
+        <button class="back-to-overview">Back to Overview</button>
+    </div>
+
+    <!-- Dynamic Model Stream Page -->
+    <div id="dynamic-page" class="page">
+        <h1>Dynamic Model Stream</h1>
+        <iframe src="http://localhost:80"></iframe>
+        <button class="back-to-overview">Back to Overview</button>
+    </div>
+
+    <!-- WiFi Data Page -->
+    <div id="wifi-page" class="page">
+        <h1>WiFi Data</h1>
+        <p id="fetch-status"></p>
+        <!-- Dropdown menu to select AP -->
+        <label for="ap-selector">Choose an Access Point:</label>
+        <select id="ap-selector">
+            <!-- Options will be populated dynamically -->
+        </select>
+    
+        <!-- Container for the graph -->
+        <div id="wifi-graphs-container"></div>
+    
+        <button class="back-to-overview">Back to Overview</button>
+    </div>
+
+    <!-- Footer for all pages -->
+    <footer>
+        <p>&copy; 2024 3D World Viewer. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script src="script.js"></script> <!-- JavaScript file -->
+</body>
+</html>
