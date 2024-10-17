@@ -12,127 +12,14 @@ const exploreDynamicButton = document.getElementById('explore-dynamic');
 const viewWifiButton = document.getElementById('view-wifi');
 const backToOverviewButtons = document.querySelectorAll('.back-to-overview');
 
-// Ports management
-let streamAvailablePorts = [8889,
-                            8890,
-                            8891,
-                            8892,
-                            8893,
-                            8894,
-                            8895,
-                            8896,
-                            8897,
-                            8898,
-                            8899,
-                            8900,
-                            8901,
-                            8902,
-                            8903,
-                            8904,
-                            8905,
-                            8906,
-                            8907,
-                            8908]
-let streamInUsePorts = [];   
-let sfuAvailablePorts = [8909,
-                        8910,
-                        8911,
-                        8912,
-                        8913,
-                        8914,
-                        8915,
-                        8916,
-                        8917,
-                        8918,
-                        8919,
-                        8920,
-                        8921,
-                        8922,
-                        8923,
-                        8924,
-                        8925,
-                        8926,
-                        8927,
-                        8928];
-let sfuInUsePorts = []; 
-let httpAvailablePorts = [8080,
-                            8081,
-                            8082,
-                            8083,
-                            8084,
-                            8085,
-                            8086,
-                            8087,
-                            8088,
-                            8089,
-                            8090,
-                            8091,
-                            8092,
-                            8093,
-                            8094,
-                            8095,
-                            8096,
-                            8097,
-                            8098,
-                            8099];
-let httpInUsePorts = [];
-let httpsAvailablePorts = [8444,
-                            8445,
-                            8446,
-                            8447,
-                            8448,
-                            8449,
-                            8450,
-                            8451,
-                            8452,
-                            8453,
-                            8454,
-                            8455,
-                            8456,
-                            8457,
-                            8458,
-                            8459,
-                            8460,
-                            8461,
-                            8462,
-                            8463];
-let httpsInUsePorts = [];
-
-let availablePorts = [8889, 8890]; // List of available ports
-let inUsePorts = {}; // Track currently in-use ports, { pageId: port }
-
-// Function to allocate a port
-function allocatePort() {
-    if (streamAvailablePorts.length === 0) {
-        console.log("No available ports.");
-        return null;
-    }
-    const streamPort = streamAvailablePorts.pop(); // Get a free port
-    const sfuPort = sfuAvailablePorts.pop(); // Get a free port
-    const httpPort = httpAvailablePorts.pop(); // Get a free port
-    const httpsPort = httpsAvailablePorts.pop(); // Get a free port
-    return [streamPort, sfuPort, httpPort, httpsPort];
-}
-
-// Function to free a port
-function freePort(streamPort, sfuPort, httpPort, httpsPort) {
-    streamAvailablePorts.push(streamPort);
-    sfuAvailablePorts.push(sfuPort);
-    httpAvailablePorts.push(httpPort);
-    httpsAvailablePorts.push(httpsPort);
-    console.log(`Ports ${streamPort}, ${sfuPort}, ${httpPort}, ${httpsPort} freed`);
-}
-
+// Function to generate a unique identifier for each session
 function generateUniqueIdentifier() {
-    return Date.now();  // Simple unique identifier (or use a UUID library)
+    return Date.now();  // Use a simple timestamp as a session ID
 }
 
-function startStream(streamPort, sfuPort, httpPort, httpsPort, streamType, sessionId) {
+// Function to start the stream by sending a request to the server
+function startStream(streamType, sessionId) {
     const query = new URLSearchParams({
-        streamPort,
-        sfuPort,
-        httpPort,
-        httpsPort,
         streamType,
         sessionId,
     }).toString();
@@ -143,6 +30,7 @@ function startStream(streamPort, sfuPort, httpPort, httpsPort, streamType, sessi
         .catch(error => console.error('Error starting stream:', error));
 }
 
+// Function to stop the stream by sending a request to the server
 function stopStream(sessionId) {
     fetch(`http://localhost:8888/stop-stream?sessionId=${sessionId}`)
         .then(response => response.text())
@@ -150,11 +38,11 @@ function stopStream(sessionId) {
         .catch(error => console.error('Error stopping stream:', error));
 }
 
-// Function to handle page switching with dynamic server management
+// Function to handle page switching and stream management
 function switchPage(fromPage, toPage, streamType = null) {
-    let sessionId = generateUniqueIdentifier();  // Generate a unique identifier for this user/session
+    let sessionId = generateUniqueIdentifier();  // Generate a session ID
 
-    // Store sessionId as a data attribute on the current page (fromPage)
+    // Store sessionId as a data attribute on the toPage
     toPage.setAttribute('data-session-id', sessionId);
 
     let outTransform = 'translateX(-100%)'; // Slide out to the left
@@ -178,37 +66,19 @@ function switchPage(fromPage, toPage, streamType = null) {
 
             // Start Unreal server for dynamic/static streams
             if (streamType) {
-                const [streamPort, sfuPort, httpPort, httpsPort] = allocatePort();
-                if (streamPort && sfuPort && httpPort && httpsPort) {
-                    startStream(streamPort, sfuPort, httpPort, httpsPort, streamType, sessionId);
-                    streamInUsePorts[sessionId] = streamPort; // Store the port in use for this page
-                    sfuInUsePorts[sessionId] = sfuPort; // Store the port in use for this page
-                    httpInUsePorts[sessionId] = httpPort; // Store the port in use for this page
-                    httpsInUsePorts[sessionId] = httpsPort; // Store the port in use for this page
-                } else {
-                    console.error('No available ports for streaming');
-                }
+                startStream(streamType, sessionId);
             }
         }, 500); // Matches CSS transition duration
     }, 50); // Small delay to trigger transition
 }
 
-// Function to return to the overview and stop server
+// Function to return to the overview and stop the stream
 function backToOverview(fromPage) {
-    if (fromPage.id === 'static-page' || fromPage.id ==='dynamic-page') {
+    if(fromPage.id === "static-page" || fromPage.id === "dynamic-page"){
         const sessionId = fromPage.getAttribute('data-session-id');  // Get the sessionId from the page's data attribute
 
-        const streamPort = streamInUsePorts[sessionId];
-        const sfuPort = sfuInUsePorts[sessionId];
-        const httpPort = httpInUsePorts[sessionId];
-        const httpsPort = httpsInUsePorts[sessionId];
-        if (streamPort && sfuPort && httpPort && httpsPort) {
-            stopStream(sessionId);
-            freePort(streamPort, sfuPort, httpPort, httpsPort);
-            delete streamInUsePorts[sessionId];
-            delete sfuInUsePorts[sessionId];
-            delete httpInUsePorts[sessionId];
-            delete httpsInUsePorts[sessionId];
+        if (sessionId) {
+            stopStream(sessionId);  // Stop the stream using session ID
         }
     }
     switchPage(fromPage, overviewPage);
@@ -257,11 +127,7 @@ backToOverviewButtons.forEach(button => {
 });
 
 // The list of AP names provided
-const apNames = ["R0_EST-AP_0.1",
-                "R0_EST-AP_0.2", 
-                "R0_EST-AP_0.3", 
-                "R0_EST-AP_0.4", 
-                "R0_AMF-AP_0.3"];
+const apNames = ["R0_EST-AP_0.1", "R0_EST-AP_0.2", "R0_EST-AP_0.3", "R0_EST-AP_0.4", "R0_AMF-AP_0.3"];
 
 // Function to populate the dropdown menu with AP names
 function populateDropdown() {
@@ -356,34 +222,38 @@ function plotSpots(aps_datetimes, aps_history, apName) {
 }
 
 // Function to fetch AP history
-function fetchAPHistory() {
+async function fetchAPHistory() {
     const fetchStatus = document.getElementById('fetch-status');
 
     // Set the status text to indicate data is being retrieved
     fetchStatus.textContent = 'Waiting for data to be retrieved...';
 
-    return fetch(`http://127.0.0.1:5000/api/get_ap_history`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Fetched history data for APs:", data); // Debugging
+    try {
+        // Await the fetch request to the Express server
+        const response = await fetch(`http://127.0.0.1:8888/get_historical_data`);
+        
+        // Check if the response is OK
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        // Await the JSON parsing
+        const data = await response.json();
+        
+        console.log("Fetched history data for APs:", data);  // Debugging
 
-            // Store the data globally for use in the dropdown change event
-            window.apData = data;
+        // Store the data globally for use in the dropdown change event
+        window.apData = data;
 
-            // Update the status text once data is retrieved
-            fetchStatus.textContent = 'Data retrieved, you can proceed to select Access Point.';
-        })
-        .catch(error => {
-            console.error('Error fetching AP history:', error);
+        // Update the status text once data is retrieved
+        fetchStatus.textContent = 'Data retrieved, you can proceed to select Access Point.';
 
-            // If there was an error, update the status message
-            fetchStatus.textContent = 'Error fetching data. Please try again.';
-        });
+    } catch (error) {
+        console.error('Error fetching AP history:', error);
+
+        // If there was an error, update the status message
+        fetchStatus.textContent = 'Error fetching data. Please try again.';
+    }
 }
 
 // Function to handle the change event on the dropdown

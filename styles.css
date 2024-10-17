@@ -235,6 +235,7 @@ iframe {
 #wifi-section p {
     font-size: 18px; /* Slightly larger font */
     font-weight: 400;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
@@ -303,7 +304,7 @@ iframe {
     text-align: center;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     transform-origin: top; /* Set the origin for scaling to the top */
 }
 

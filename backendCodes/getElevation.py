@@ -11,14 +11,3 @@ def get_elevation(lat, lng):
         return elevation
     else:
         return None
-
-print(get_elevation(38.286766,21.787213))
-
-for i in range (0,40):
-    print(8889+i)
-
-for i in range (0,20):
-    print(8080+i)
-
-for i in range (0,20):
-    print(8444+i)
