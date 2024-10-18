@@ -147,7 +147,7 @@ async function uploadData(position) {
     const alt = await getElevation(lat, lon); // Fetch elevation using the proxy
     const { fixedX, fixedY } = fixedUEngineUnits(lat, lon);
 
-    let x_old = 0, y_old = 0, z_old = 0;
+    let x_old =  fixedX, y_old =  fixedY, z_old = alt;
     const oldData = await getData(); // Fetch existing data from the server
 
     if (oldData !== null) {
