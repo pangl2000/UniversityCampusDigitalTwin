@@ -81,9 +81,9 @@ async def post_or_patch(session, resource_id, data):
             data['z_old'] = json_doc.get('z', {}).get('value', 0)
             await send_patch(session, resource_id, data)
         else:
-            data['x_old'] = 0
-            data['y_old'] = 0
-            data['z_old'] = 0
+            data['x_old'] = data['x']
+            data['y_old'] = data['y']
+            data['z_old'] = data['z']
             await send_post(session, resource_id, data)
 
 async def get_AP_data(session):

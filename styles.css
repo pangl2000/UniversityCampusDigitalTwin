@@ -30,26 +30,21 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
-    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow for a modern effect */
-    opacity: 0; /* Initially invisible */
-    transform: translateX(100%); /* Initially positioned off-screen */
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 1vh 3vw rgba(0, 0, 0, 0.1); /* Softer shadow */
+    opacity: 0;
+    transform: translateX(100%);
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 /* Overview Page - lighter shade of blue */
 #overview-page {
-    background-color: #dddddd; /* Light blue */
+    background-color: #dddddd;
 }
 
-/* Static Page - custom light blue */
-#static-page {
-    background-color: #5f5f5f; /* Light blue specific for static page */
-}
-
-/* Dynamic Page - another custom light blue */
-#dynamic-page {
-    background-color: #5f5f5f; /* Different light blue for dynamic page */
+/* Static and Dynamic Page - custom background */
+#static-page, #dynamic-page {
+    background-color: #5f5f5f;
 }
 
 /* Apply flexbox centering for home-page */
@@ -62,7 +57,7 @@ body, html {
     height: 100%;
     position: absolute;
     background-color: #dddddd;
-    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1vh 3vw rgba(0, 0, 0, 0.1);
     opacity: 1;
     transform: translateX(0);
     transition: transform 0.5s ease, opacity 0.5s ease;
@@ -103,55 +98,54 @@ body, html {
 /* Center everything horizontally and vertically */
 h1, p, button, iframe {
     text-align: center;
-    margin: 20px 0;
+    margin: 1.5vh 0;
 }
 
 /* Styling for headings (H1) */
 h1 {
-    font-size: 48px;
+    font-size: 3vw;
     font-weight: 700;
     color: #333;
-    margin-bottom: 20px;
-    letter-spacing: 1px; /* Add spacing between letters */
+    margin-bottom: 1.5vh;
+    letter-spacing: 0.05vw;
 }
 
 /* Styling for paragraphs (subtitles) */
 p {
-    font-size: 22px;
+    font-size: 1.2vw;
     font-weight: 300;
     color: #666;
-    margin-bottom: 30px;
-    line-height: 1.6; /* Add more space between lines for better readability */
+    margin-bottom: 2vh;
+    line-height: 1.5;
 }
-
 
 /* Modern button styles */
 button {
-    background-color: #4CAF50; /* Use a more modern color like green */
+    background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 15px 30px;
-    font-size: 18px; /* Increase the font size for readability */
-    border-radius: 50px;
+    padding: 1vh 2vw;
+    font-size: 1.2vw;
+    border-radius: 1vw;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    margin: 10px;
+    margin: 0.5vh;
     font-family: 'Montserrat', sans-serif;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    box-shadow: 0px 0.5vh 1.5vw rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #45a049; /* Darken the button color on hover */
-    transform: translateY(-3px); /* Slight lift effect on hover */
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Increase shadow on hover */
+    background-color: #45a049;
+    transform: translateY(-0.3vh);
+    box-shadow: 0px 1vh 2vw rgba(0, 0, 0, 0.15);
 }
 
 /* Iframe styling */
 iframe {
-    width: 1152px;
-    height: 648px;
+    width: 50vw;
+    height: 50vh;
     border: none;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1vh 3vw rgba(0, 0, 0, 0.5);
 }
 
 /* Center back buttons under the iframe */
@@ -159,36 +153,25 @@ iframe {
     background-color: #bfbfbf;
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 50px;
+    padding: 0.8vh 1.5vw;
+    font-size: 1vw;
+    border-radius: 1vw;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 20px;
+    margin-top: 1.5vh;
     font-family: 'Montserrat', sans-serif;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0.3vh 1vw rgba(0, 0, 0, 0.2);
 }
 
 .back-to-overview:hover {
     background-color: #a6a6a6;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0.8vh 2vw rgba(0, 0, 0, 0.3);
 }
 
-#overview-page p{
-    max-width: 1000px;
-    margin: 0px auto 0 auto;
-    margin-bottom: 20px;
-}
-
-/* Remove flex from static and dynamic pages and use positioning */
-#static-page, #dynamic-page {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-#static-page h1, #dynamic-page h1{
-    color: white
+#overview-page p {
+    max-width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1.5vh;
 }
 
 /* Center the iframe */
@@ -197,16 +180,14 @@ iframe {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -60%);
-    margin-bottom: 0px;
 }
 
 /* Position the back button under the iframe */
 #static-page .back-to-overview, #dynamic-page .back-to-overview {
     position: absolute;
-    top: calc(50% + 350px);
+    top: calc(50% + 25vh);
     left: 50%;
     transform: translateX(-50%);
-    margin-top: -60px;
 }
 
 /* Adjust button containers */
@@ -223,52 +204,51 @@ iframe {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-top: 50px;
-    padding: 20px;
+    margin-top: 3vh;
+    padding: 1.5vh;
     background-color: #f1f1f1;
-    border-radius: 15px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    width: 600px; /* Set a specific width for the WiFi section */
-    margin: 50px auto; /* Center the section horizontally */
+    border-radius: 1.5vw;
+    box-shadow: 0px 1vh 3vw rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin: 3vh auto;
 }
 
 #wifi-section p {
-    font-size: 18px; /* Slightly larger font */
+    font-size: 1vw;
     font-weight: 400;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 0.8vh 0;
 }
 
 #wifi-section button {
-    padding: 12px 30px;
-    background-color: #4CAF50;  /* Matching green links */
+    padding: 0.8vh 2vw;
+    background-color: #4CAF50;
     color: #474747;
-    border-radius: 10px;
+    border-radius: 1vw;
 }
 
 #wifi-section button:hover {
-    background-color: #61e265; /* Ligthen on hover */
+    background-color: #61e265;
 }
 
 #overview-controls button, #wifi-section button, .button-container button {
-    margin: 10px;
+    margin: 0.5vh;
 }
 
 /* Remove flexbox from the WiFi page */
 #wifi-page {
     position: relative;
     text-align: center;
-    padding-top: 20px;
+    padding-top: 1.5vh;
 }
 
-#wifi-page p{
-    margin-bottom: 10px;
+#wifi-page p {
+    margin-bottom: 0.8vh;
 }
 
 /* Use margin auto to center the Back to Overview button */
 #wifi-page .back-to-overview {
     display: inline-block;
-    margin: 20px auto 0 auto;
+    margin: 1.5vh auto 0 auto;
 }
 
 /* Style for the canvas container in the WiFi page */
@@ -280,8 +260,8 @@ iframe {
 
 /* Style for the canvas in the WiFi page */
 #wifi-graphs-container canvas {
-    width: 1152px !important;
-    height: 540px !important;
+    width: 50vw !important;
+    height: 50vh !important;
     display: block;
 }
 
@@ -289,48 +269,48 @@ iframe {
 #description-container {
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    margin-top: 1.5vh;
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 3vh;
 }
 
 /* Styling for each description box */
 .description-box {
     background-color: #f9f9f9;
-    border-radius: 20px;
-    padding: 30px;
-    width: 40%;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); /* Light shadow for better visibility */
+    border-radius: 1.5vw;
+    padding: 1.5vh;
+    width: 35%;
+    box-shadow: 0px 1vh 3vw rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     position: relative;
-    margin-bottom: 30px;
-    transform-origin: top; /* Set the origin for scaling to the top */
+    margin-bottom: 2vh;
+    transform-origin: top;
 }
 
 .description-box:hover {
-    transform: scale(1.2); /* Slight lift effect on hover */
-    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15); /* Add a stronger shadow on hover */
+    transform: scale(1.1);
+    box-shadow: 0px 2vh 5vw rgba(0, 0, 0, 0.15);
 }
 
 #explore-static {
     position: relative;
-    top: 0px; /* Place the button above the center of the description box */
-    left:-335px;
-    margin-bottom: -40px; /* Pull the margin up */
-    padding: 10px 30px;
-    background-color: #999;  /* Different background color */
-    border-radius: 50px; /* Ensure buttons stay rounded */
+    top: 0;
+    left: -16vw;
+    margin-bottom: -2vh;
+    padding: 0.8vh 1.5vw;
+    background-color: #999;
+    border-radius: 1.5vw;
 }
 
 #explore-dynamic {
     position: relative;
-    top: 0px; /* Place the button above the center of the description box */
-    right: -335px;
-    margin-bottom: -40px; /* Pull the margin up */
-    padding: 10px 30px;
-    background-color: #999;  /* Different background color */
-    border-radius: 50px; /* Ensure buttons stay rounded */
+    top: 0;
+    left: 17vw;
+    margin-bottom: -2vh;
+    padding: 0.8vh 1.5vw;
+    background-color: #999;
+    border-radius: 1.5vw;
 }
 
 #explore-static:hover, #explore-dynamic:hover {
@@ -339,13 +319,13 @@ iframe {
 
 /* Heading inside the description box */
 .description-box h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 1.8vw;
+    margin-bottom: 1vh;
 }
 
 /* Paragraph inside the description box */
 .description-box p {
-    font-size: 16px;
+    font-size: 1vw;
     color: #666;
 }
 
@@ -353,20 +333,20 @@ iframe {
 footer {
     width: 100%;
     text-align: center;
-    padding: 20px 0;
-    background-color: #333;  /* Dark background for contrast */
+    padding: 1.5vh 0;
+    background-color: #333;
     color: white;
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 1000;  /* Make sure footer is always on top */
-    font-size: 12px;  /* Small text */
+    z-index: 1000;
+    font-size: 0.8vw;
 }
 
 footer a {
-    color: #4CAF50;  /* Matching green links */
+    color: #4CAF50;
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 1vw;
 }
 
 footer a:hover {
@@ -382,11 +362,11 @@ footer a:hover {
 
     .description-box {
         width: 80%;
-        margin-bottom: 20px;
+        margin-bottom: 2vh;
     }
 
     iframe {
         width: 100%;
-        height: auto; /* Ensure iframe scales well on small screens */
+        height: auto;
     }
 }
