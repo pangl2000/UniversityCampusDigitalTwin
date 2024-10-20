@@ -7,9 +7,8 @@ This guide will walk you through downloading the necessary files, installing dep
 1. **Download all files** from this GitHub repository.
 2. **Download large files** from the link provided in `LargeFilesLink.txt`.
 3. **Place all downloaded folders** in the project's root directory.
-
-* **Note**: Make sure you have **Docker Desktop** installed, as it is required for setting up the database.</br>
-You can download Docker Desktop from [here](https://www.docker.com/products/docker-desktop/).*
+_**Note**: Make sure you have **Docker Desktop** installed, as it is required for setting up the database.</br>
+You can download Docker Desktop from [here](https://www.docker.com/products/docker-desktop/)._
 
 ## 🛠 Installation
 
