@@ -10,7 +10,7 @@ This guide will walk you through downloading the necessary files, installing dep
 
 ## 🛠 Installation
 
-**Note**: Make sure you have **Docker Desktop** installed, as it is required for setting up the database.
+**Note**: Make sure you have **Docker Desktop** installed, as it is required for setting up the database.</br>
 You can download Docker Desktop from [here](https://www.docker.com/products/docker-desktop/).
 
 To install the required packages, follow these steps:
