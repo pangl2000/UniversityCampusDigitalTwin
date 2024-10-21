@@ -109,10 +109,10 @@ function generateData(x, y, z, x_old, y_old, z_old) {
     return {
         "id": "DigitalTwinDataPhone",
         "type": "Data",
-        "user_ids": {"type": "List", "value": "Phone"},
-        "new_locations": {"type": "List", "value": {"X": x, "Y": y, "Z": z}},
-        "old_locations": {"type": "List", "value": {"X": x_old, "Y": y_old, "Z": z_old}},
-        "areas": {"type": "List", "value": "unknown"}
+        "user_ids": {"type": "List", "value": ["Phone"]},
+        "new_locations": {"type": "List", "value": [{"X": x, "Y": y, "Z": z}]},
+        "old_locations": {"type": "List", "value": [{"X": x_old, "Y": y_old, "Z": z_old}]},
+        "areas": {"type": "List", "value": ["unknown"]}
     };
 }
 
