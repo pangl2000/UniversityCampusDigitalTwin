@@ -7,9 +7,7 @@ This guide will walk you through downloading the necessary files, installing dep
 1. **Download all files** from this GitHub repository.
 2. **Download large files** from the link provided in `LargeFilesLink.txt`.
 3. **Place all downloaded folders** in the project's root directory.</br></br>
-_**Note**: Make sure you have **Docker Desktop** installed, as it is required for setting up the database.</br>
-You can download Docker Desktop from [here](https://www.docker.com/products/docker-desktop/).</br>
-You will also need **node.js** which you will find [here](https://nodejs.org/en)_.
+_**Note**: Make sure you have: [Docker Desktop](https://www.docker.com/products/docker-desktop/), [node.js](https://nodejs.org/en) and [python 3.11+](https://www.python.org/downloads/)_.
 
 ## 🛠 Installation
 
