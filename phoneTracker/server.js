@@ -72,7 +72,7 @@ app.post('/postData', async (req, res) => {
 
 // Proxy route for PATCHing data to the context broker
 app.patch('/patchData', async (req, res) => {
-    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinUser:PhoneManny/attrs';
+    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinDataPhone/attrs';
     const data = req.body; // The data to patch
 
     delete data.id;
