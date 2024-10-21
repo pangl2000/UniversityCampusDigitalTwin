@@ -42,7 +42,7 @@ app.get('/getElevation', async (req, res) => {
 
 // Proxy route for getting data from the context broker
 app.get('/getData', async (req, res) => {
-    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinUser:PhoneManny';
+    const url = 'http://150.140.186.118:1026/v2/entities/DigitalTwinDataPhone';
     try {
         const response = await axios.get(url);
         res.json(response.data); // Return the response data to the client

@@ -127,9 +127,9 @@ async function uploadData(position) {
     const oldData = await getData(); // Fetch existing data from the server
 
     if (oldData !== null) {
-        x_old = oldData['x']['value'];
-        y_old = oldData['y']['value'];
-        z_old = oldData['z']['value'];
+        x_old = oldData['old_locations']['value']['X'];
+        y_old = oldData['old_locations']['value']['Y'];
+        z_old = oldData['old_locations']['value']['Z'];
     }
 
     const data = generateData(fixedX, fixedY, alt, x_old, y_old, z_old);
