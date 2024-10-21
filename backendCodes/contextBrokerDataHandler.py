@@ -88,7 +88,7 @@ async def send_patch(session, entityId, userIDs, new_locations, old_locations, a
 # Function to handle creating or updating entities based on current data
 async def post_or_patch(session, userIDs, new_locations, old_locations, areas):
     # Fetch existing entities from the context broker
-    get_url = f"{url}/entities?idPattern=DigitalTwinData"
+    get_url = f"{url}/entities?idPattern=DigitalTwinData:"
     headers = {"Accept": "application/json"}
 
     async with session.get(get_url, headers=headers) as response:

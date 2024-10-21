@@ -107,36 +107,12 @@ function fixedUEngineUnits(lat, lon) {
 // Function to generate data to post or patch
 function generateData(x, y, z, x_old, y_old, z_old) {
     return {
-        "id": "DigitalTwinUser:PhoneManny",
-        "type": "User",
-        "x": {
-            "type": "Number",
-            "value": x  // Longitude
-        },
-        "y": {
-            "type": "Number",
-            "value": y  // Latitude
-        },
-        "z": {
-            "type": "Number",
-            "value": z  // Altitude
-        },
-        "x_old": {
-            "type": "Number",
-            "value": x_old
-        },
-        "y_old": {
-            "type": "Number",
-            "value": y_old
-        },
-        "z_old": {
-            "type": "Number",
-            "value": z_old
-        },
-        "area": {
-            "type": "Text",
-            "value": "Unknown"
-        }
+        "id": "DigitalTwinDataPhone",
+        "type": "Data",
+        "user_ids": {"type": "List", "value": "Phone"},
+        "new_locations": {"type": "List", "value": {"X": x, "Y": y, "Z": z}},
+        "old_locations": {"type": "List", "value": {"X": x_old, "Y": y_old, "Z": z_old}},
+        "areas": {"type": "List", "value": "unknown"}
     };
 }
 
