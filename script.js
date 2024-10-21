@@ -38,15 +38,22 @@ function stopStream(sessionId) {
         .catch(error => console.error('Error stopping stream:', error));
 }
 
-// Function to handle page switching and stream management
-function switchPage(fromPage, toPage, streamType = null) {
+// Function to handle page switching with sliding transitions
+function switchPage(fromPage, toPage, streamType = null, direction = 'left') {
     let sessionId = generateUniqueIdentifier();  // Generate a session ID
 
     // Store sessionId as a data attribute on the toPage
     toPage.setAttribute('data-session-id', sessionId);
 
-    let outTransform = 'translateX(-100%)'; // Slide out to the left
-    let inTransform = 'translateX(100%)';   // Slide in from the right
+    let outTransform, inTransform;
+
+    if (direction === 'left') {
+        outTransform = 'translateX(-100%)'; // Slide out to the left
+        inTransform = 'translateX(100%)';   // Slide in from the right
+    } else {
+        outTransform = 'translateX(100%)';  // Slide out to the right
+        inTransform = 'translateX(-100%)';  // Slide in from the left
+    }
 
     fromPage.style.transform = outTransform;
     fromPage.style.opacity = 0; // Fade out
@@ -74,14 +81,14 @@ function switchPage(fromPage, toPage, streamType = null) {
 
 // Function to return to the overview and stop the stream
 function backToOverview(fromPage) {
-    if(fromPage.id === "static-page" || fromPage.id === "dynamic-page"){
+    if (fromPage.id === "static-page" || fromPage.id === "dynamic-page") {
         const sessionId = fromPage.getAttribute('data-session-id');  // Get the sessionId from the page's data attribute
 
         if (sessionId) {
             stopStream(sessionId);  // Stop the stream using session ID
         }
     }
-    switchPage(fromPage, overviewPage);
+    switchPage(fromPage, overviewPage, null, 'right');
 }
 
 // Event listeners for navigation
@@ -167,7 +174,6 @@ function plotSpots(aps_datetimes, aps_history, apName) {
     const wifiGraphsContainer = document.getElementById('wifi-graphs-container');
     wifiGraphsContainer.innerHTML = '';  // Clear existing content
 
-    // Create a canvas element for the plot with specific dimensions
     const canvas = document.createElement('canvas');
     canvas.width = 1152;
     canvas.height = 648;
@@ -186,7 +192,7 @@ function plotSpots(aps_datetimes, aps_history, apName) {
             }]
         },
         options: {
-            responsive: false, // Turn off responsiveness to fix the canvas size
+            responsive: false,
             scales: {
                 x: {
                     type: 'time',
@@ -225,33 +231,26 @@ function plotSpots(aps_datetimes, aps_history, apName) {
 async function fetchAPHistory() {
     const fetchStatus = document.getElementById('fetch-status');
 
-    // Set the status text to indicate data is being retrieved
     fetchStatus.textContent = 'Waiting for data to be retrieved...';
 
     try {
-        // Await the fetch request to the Express server
         const response = await fetch(`http://127.0.0.1:8888/get_historical_data`);
         
-        // Check if the response is OK
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        
-        // Await the JSON parsing
-        const data = await response.json();
-        
-        console.log("Fetched history data for APs:", data);  // Debugging
 
-        // Store the data globally for use in the dropdown change event
+        const data = await response.json();
+
+        console.log("Fetched history data for APs:", data);
+
         window.apData = data;
 
-        // Update the status text once data is retrieved
         fetchStatus.textContent = 'Data retrieved, you can proceed to select Access Point.';
 
     } catch (error) {
         console.error('Error fetching AP history:', error);
 
-        // If there was an error, update the status message
         fetchStatus.textContent = 'Error fetching data. Please try again.';
     }
 }
@@ -267,7 +266,6 @@ function handleAPChange() {
             const apHistory = window.apData.aps_history;
 
             if (datetimes && apHistory) {
-                // Plot the data for the selected AP
                 plotSpots(datetimes, apHistory, selectedAP);
             } else {
                 console.error(`No data available for selected AP: ${selectedAP}`);
@@ -277,5 +275,5 @@ function handleAPChange() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    handleAPChange();  // Set up the event listener for dropdown change
+    handleAPChange();
 });
