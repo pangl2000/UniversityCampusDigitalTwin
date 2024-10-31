@@ -2,6 +2,18 @@
 
 This guide will walk you through downloading the necessary files, installing dependencies, and running the project. Additionally, instructions for using phone location tracking are provided.
 
+## Prerequisites
+1. If your windows have Long Pathnames disabled you need to turn it to enabled. You can check if it's enabled running this command in Windows Powershell:
+```
+Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled"
+```
+If LongPathsEnabled is set to 1, long paths are enabled.
+If it’s 0 or doesn’t exist, long paths are not enabled and in this case you have to open Windows Powershell as Administrator and run:
+```
+New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+```
+
+
 ## 📥 Download
 
 1. **Download all files** from this GitHub repository.
