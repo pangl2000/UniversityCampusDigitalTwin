@@ -5,7 +5,7 @@ This guide will walk you through downloading the necessary files, installing dep
 ## 📥 Download
 
 1. **Download all files** from this GitHub repository.
-2. **Download large files** from this google drive [link](https://drive.google.com/file/d/1qxBObcdmIS4V9mJRUiPlnoDrPRMQteUF/view?usp=sharing) and extract the files.
+2. **Download large files** from this google drive [link](https://drive.google.com/file/d/1jXK93D8Bur9EWruAC-QHEaEi-mES3-gF/view?usp=sharing) and extract the files.
 3. **Place all downloaded folders** in the project's root directory.</br></br>
 _**Note**: Make sure you have installed [Docker Desktop](https://www.docker.com/products/docker-desktop/) - [node.js](https://nodejs.org/en) - [python 3.11+](https://www.python.org/downloads/)_.
 
