@@ -7,10 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Add Moment.js -->
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-
     <!-- Add Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script>
-
     <!-- Add Chart.js Moment Adapter -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 </head>
@@ -34,28 +32,20 @@
             <button id="explore-dynamic">Explore Dynamic Model</button>
         </div>
 
-        <!-- New Descriptive Boxes -->
         <div id="description-container">
-            <!-- Static Model Description Box -->
             <div class="description-box">
                 <h2>Static Model</h2>
-                <p>Explore the university campus in a high-resolution 3D model. This model is static and allows you to closely examine different areas with precise detail.<br>
-                    <span style="font-size: 12px; margin-top: 0; margin-bottom: 4px;">
-                    <strong>F -> "Freemode" ("WASD")<br> 
-                    L -> "Locked" ("LEFT/RIGHT arrow key")</strong><br></span></p>
+                <p>Explore the university campus in a high-resolution 3D model. This model is static and allows you to closely examine different areas with precise detail.</p>
             </div>
-
-            <!-- Dynamic Model Description Box -->
             <div class="description-box">
                 <h2>Dynamic Model</h2>
-                <p>Engage with the live model of the campus that shows real-time movement data. Watch the campus come alive with dynamic movements and interactions.<br>
-                    <span style="font-size: 12px; margin-top: 0; margin-bottom: 4px;"><strong>Use "WASD to move around.</strong></span></p>
+                <p>Engage with the live model of the campus that shows real-time movement data. Watch the campus come alive with dynamic movements and interactions.</p>
             </div>
         </div>
 
         <div id="wifi-section">
             <h2>Additionally, explore WiFi data.</h2>
-            <p><span style="font-size: 16px;">Get people population in different Access Points of university campus over the last 7 days.</span></p>
+            <p>Get people population in different Access Points of the university campus over the last 7 days.</p>
             <button id="view-wifi">WiFi Data</button>
         </div>
     </div>
@@ -77,16 +67,15 @@
     <!-- WiFi Data Page -->
     <div id="wifi-page" class="page">
         <h1>WiFi Data</h1>
-        <p id="fetch-status"></p>
-        <!-- Dropdown menu to select AP -->
-        <label for="ap-selector">Choose an Access Point:</label>
-        <select id="ap-selector">
-            <!-- Options will be populated dynamically -->
-        </select>
-    
-        <!-- Container for the graph -->
-        <div id="wifi-graphs-container"></div>
-    
+        <div id="wifi-option-buttons">
+            <button id="view-dropdown">View with Dropdown</button>
+            <button id="view-grafana">View with Grafana</button>
+        </div>
+
+        <div id="content-container">
+            <!-- This container will be populated with either the dropdown menu or the Grafana iframe -->
+        </div>
+        
         <button class="back-to-overview">Back to Overview</button>
     </div>
 

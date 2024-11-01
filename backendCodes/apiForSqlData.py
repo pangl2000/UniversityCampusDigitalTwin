@@ -74,10 +74,35 @@ def get_ap_history():
 
             # Query to fetch all entries from the last 7 days from the most recent entry
             cursor.execute("""
-                SELECT attrName, attrValue, recvTimeTs
-                FROM WLC_LESXI_WLCdata 
-                WHERE recvTimeTs BETWEEN %s AND %s 
-                ORDER BY recvTimeTs DESC
+                SELECT 
+                    w.attrName, 
+                    w.attrValue, 
+                    w.recvTimeTs
+                FROM 
+                    WLC_LESXI_WLCdata w
+                INNER JOIN (
+                    SELECT 
+                        attrName, 
+                        MAX(recvTimeTs) AS latestTimeTs,
+                        CONCAT(
+                            DATE(FROM_UNIXTIME(recvTimeTs / 1000)), ' ',
+                            LPAD(FLOOR(HOUR(FROM_UNIXTIME(recvTimeTs / 1000)) + MINUTE(FROM_UNIXTIME(recvTimeTs / 1000)) / 30 * 0.5), 2, '0'), 
+                            ':', 
+                            IF(MINUTE(FROM_UNIXTIME(recvTimeTs / 1000)) < 30, '00', '30'), 
+                            ':00'
+                        ) AS half_hour_block
+                    FROM 
+                        WLC_LESXI_WLCdata
+                    WHERE 
+                        recvTimeTs BETWEEN %s AND %s
+                    GROUP BY 
+                        attrName, half_hour_block
+                ) AS latest_records
+                ON 
+                    w.attrName = latest_records.attrName 
+                    AND w.recvTimeTs = latest_records.latestTimeTs
+                ORDER BY 
+                    w.recvTimeTs DESC;
             """, (
                 int(start_time.timestamp() * 1000),
                 int(last_entry_datetime.timestamp() * 1000)

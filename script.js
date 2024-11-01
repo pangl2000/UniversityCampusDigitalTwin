@@ -4,6 +4,7 @@ const overviewPage = document.getElementById('overview-page');
 const staticPage = document.getElementById('static-page');
 const dynamicPage = document.getElementById('dynamic-page');
 const wifiPage = document.getElementById('wifi-page');
+const contentContainer = document.getElementById('content-container');
 
 // Buttons
 const enterOverviewButton = document.getElementById('enter-overview');
@@ -40,27 +41,26 @@ function stopStream(sessionId) {
 
 // Function to handle page switching with sliding transitions
 function switchPage(fromPage, toPage, streamType = null, direction = 'left') {
-    let sessionId = generateUniqueIdentifier();  // Generate a session ID
+    let sessionId = generateUniqueIdentifier();
 
-    // Store sessionId as a data attribute on the toPage
     toPage.setAttribute('data-session-id', sessionId);
 
     let outTransform, inTransform;
 
     if (direction === 'left') {
-        outTransform = 'translateX(-100%)'; // Slide out to the left
-        inTransform = 'translateX(100%)';   // Slide in from the right
+        outTransform = 'translateX(-100%)';
+        inTransform = 'translateX(100%)';
     } else {
-        outTransform = 'translateX(100%)';  // Slide out to the right
-        inTransform = 'translateX(-100%)';  // Slide in from the left
+        outTransform = 'translateX(100%)';
+        inTransform = 'translateX(-100%)';
     }
 
     fromPage.style.transform = outTransform;
-    fromPage.style.opacity = 0; // Fade out
+    fromPage.style.opacity = 0;
 
     toPage.style.display = 'block';
     toPage.style.transform = inTransform;
-    toPage.style.opacity = 0; // Initially invisible
+    toPage.style.opacity = 0;
 
     setTimeout(() => {
         toPage.style.transform = 'translateX(0)';
@@ -69,23 +69,22 @@ function switchPage(fromPage, toPage, streamType = null, direction = 'left') {
         setTimeout(() => {
             toPage.classList.add('active');
             fromPage.classList.remove('active');
-            fromPage.style.display = 'none'; // Hide the old page
+            fromPage.style.display = 'none';
 
-            // Start Unreal server for dynamic/static streams
             if (streamType) {
                 startStream(streamType, sessionId);
             }
-        }, 500); // Matches CSS transition duration
-    }, 50); // Small delay to trigger transition
+        }, 500);
+    }, 50);
 }
 
 // Function to return to the overview and stop the stream
 function backToOverview(fromPage) {
     if (fromPage.id === "static-page" || fromPage.id === "dynamic-page") {
-        const sessionId = fromPage.getAttribute('data-session-id');  // Get the sessionId from the page's data attribute
+        const sessionId = fromPage.getAttribute('data-session-id');
 
         if (sessionId) {
-            stopStream(sessionId);  // Stop the stream using session ID
+            stopStream(sessionId);
         }
     }
     switchPage(fromPage, overviewPage, null, 'right');
@@ -101,7 +100,7 @@ enterOverviewButton.addEventListener('click', () => {
         overviewPage.style.opacity = 1;
         overviewPage.style.transform = 'translateX(0)';
         overviewPage.classList.add('active');
-    }, 500);  // Matches the zoom-in animation duration
+    }, 500);
 });
 
 // From Overview to Static Model Stream
@@ -117,12 +116,6 @@ exploreDynamicButton.addEventListener('click', () => {
 // From Overview to WiFi Data
 viewWifiButton.addEventListener('click', () => {
     switchPage(overviewPage, wifiPage);
-
-    // Initiate fetching AP history when navigating to WiFi page
-    fetchAPHistory().then(() => {
-        populateDropdown(); // Populate dropdown after data is fetched
-        handleAPChange(); // Set up event listener for dropdown change after fetching data
-    });
 });
 
 // Back to overview from other pages
@@ -133,13 +126,98 @@ backToOverviewButtons.forEach(button => {
     });
 });
 
+// Elements for WiFi options
+const viewDropdownButton = document.getElementById('view-dropdown');
+const viewGrafanaButton = document.getElementById('view-grafana');
+
+// List of Grafana dashboard options
+const grafanaDashboards = {
+    "Waiting Area": "http://iot.patras5g.eu:2222/d/ce15blg19l9fka/estia-people-traffic-data?orgId=1&from=1729502553676&to=1729675353677&viewPanel=4",
+    "Restaurant": "http://iot.patras5g.eu:2222/d/ce15blg19l9fka/estia-people-traffic-data?orgId=1&from=1729502567765&to=1729675367765&viewPanel=2",
+    "Combined (Waiting Area + Restaurant)": "http://iot.patras5g.eu:2222/d/ce15blg19l9fka/estia-people-traffic-data?orgId=1&from=1729502579739&to=1729675379739&viewPanel=1"
+};
+
+// Event listener for the dropdown button
+viewDropdownButton.addEventListener('click', () => {
+    contentContainer.innerHTML = '';
+
+    const fetchStatus = document.createElement('p');
+    fetchStatus.id = 'fetch-status';
+    fetchStatus.textContent = 'Waiting for data to be retrieved...';
+    contentContainer.appendChild(fetchStatus);
+
+    const label = document.createElement('label');
+    label.setAttribute('for', 'ap-selector');
+    label.textContent = 'Choose an Access Point:';
+    contentContainer.appendChild(label);
+
+    const apSelector = document.createElement('select');
+    apSelector.id = 'ap-selector';
+    contentContainer.appendChild(apSelector);
+
+    const graphContainer = document.createElement('div');
+    graphContainer.id = 'wifi-graphs-container';
+    contentContainer.appendChild(graphContainer);
+
+    fetchAPHistory().then(() => {
+        populateDropdown();
+        handleAPChange();
+    });
+});
+
+// Event listener for the Grafana button
+viewGrafanaButton.addEventListener('click', () => {
+    contentContainer.innerHTML = '';
+
+    const grafanaLabel = document.createElement('label');
+    grafanaLabel.setAttribute('for', 'grafana-selector');
+    grafanaLabel.textContent = 'Select a Grafana Dashboard:';
+    contentContainer.appendChild(grafanaLabel);
+
+    const grafanaSelector = document.createElement('select');
+    grafanaSelector.id = 'grafana-selector';
+    contentContainer.appendChild(grafanaSelector);
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Select a dashboard';
+    grafanaSelector.appendChild(defaultOption);
+
+    // Populate the dropdown with dashboard options
+    Object.keys(grafanaDashboards).forEach(key => {
+        const option = document.createElement('option');
+        option.value = grafanaDashboards[key];
+        option.textContent = key;
+        grafanaSelector.appendChild(option);
+    });
+
+    const grafanaContainer = document.createElement('div');
+    grafanaContainer.id = 'grafana-iframe-container';
+    contentContainer.appendChild(grafanaContainer);
+
+    // Event listener for changing Grafana dashboard selection
+    grafanaSelector.addEventListener('change', () => {
+        const selectedUrl = grafanaSelector.value;
+
+        if (selectedUrl) {
+            grafanaContainer.innerHTML = '';
+            const grafanaIframe = document.createElement('iframe');
+            grafanaIframe.src = selectedUrl;
+            grafanaIframe.width = '100%';
+            grafanaIframe.height = '600px';
+            grafanaIframe.style.border = 'none';
+            grafanaContainer.appendChild(grafanaIframe);
+        }
+    });
+});
+
 // The list of AP names provided
 const apNames = ["R0_EST-AP_0.1", "R0_EST-AP_0.2", "R0_EST-AP_0.3", "R0_EST-AP_0.4", "R0_AMF-AP_0.3"];
 
 // Function to populate the dropdown menu with AP names
 function populateDropdown() {
     const apSelector = document.getElementById('ap-selector');
-    apSelector.innerHTML = ''; // Clear any previous options
+    apSelector.innerHTML = '';
 
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
@@ -153,7 +231,7 @@ function populateDropdown() {
         apSelector.appendChild(option);
     });
 
-    console.log('Dropdown populated with AP names:', apNames); // Debugging
+    console.log('Dropdown populated with AP names:', apNames);
 }
 
 // Function to plot the selected AP's data based on aps_history and aps_datetimes
@@ -172,7 +250,7 @@ function plotSpots(aps_datetimes, aps_history, apName) {
     const momentDatetimes = aps_datetimes.map(dt => moment(dt));
 
     const wifiGraphsContainer = document.getElementById('wifi-graphs-container');
-    wifiGraphsContainer.innerHTML = '';  // Clear existing content
+    wifiGraphsContainer.innerHTML = '';
 
     const canvas = document.createElement('canvas');
     canvas.width = 1152;
@@ -234,7 +312,6 @@ async function fetchAPHistory() {
     fetchStatus.textContent = 'Waiting for data to be retrieved...';
 
     try {
-        // Explicitly use the full URL with the IP address and port
         const apiUrl = `http://${window.location.hostname}:8888/get_historical_data`;
         
         const response = await fetch(apiUrl);

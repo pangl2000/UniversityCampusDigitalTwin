@@ -265,6 +265,57 @@ iframe {
     display: block;
 }
 
+/* Style for the Grafana selection container */
+#grafana-label {
+    width: 20vw;
+    margin: 1.5vh auto; /* Space between label and dropdown */
+    text-align: center;
+}
+
+/* Adjust the button styles */
+#view-dropdown, #view-grafana {
+    width: 20vw;
+    padding: 1vh 1vw;
+    margin: 1vh auto; /* Adds space between buttons */
+}
+
+#grafana-iframe-container{
+    margin-top: 1.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensure the container takes full width */
+}
+
+#grafana-iframe-container iframe {
+    width: 50vw !important;
+    height: 50vh !important;
+    border: none;
+    box-shadow: 0 1vh 3vw rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+/* Adjust the dropdown selector to be responsive */
+#grafana-selector {
+    width: 16vw;
+    font-size: 0.8vw;
+    padding: 0.5vh 1vw;
+    border-radius: 0.5vw;
+    margin-bottom: 0vh; /* Space between dropdown and iframe */
+    margin-left: 1vw;
+    margin-top: 1vh;
+}
+
+/* Adjust the dropdown selector to be responsive */
+#ap-selector {
+    width: 10vw;
+    font-size: 0.8vw;
+    padding: 0.5vh 1vw;
+    border-radius: 0.5vw;
+    margin-bottom: 1vh; /* Space between dropdown and iframe */
+    margin-left: 1vw;
+}
+
 /* Container for description boxes */
 #description-container {
     display: flex;
