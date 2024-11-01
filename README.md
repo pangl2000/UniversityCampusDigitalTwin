@@ -16,6 +16,7 @@ _Extract `UniversityCampusDigitalTwin-master.zip`. To avoid any issues extract `
 _**Note**: Make sure you have installed [Docker Desktop](https://www.docker.com/products/docker-desktop/) - [node.js](https://nodejs.org/en) - [python 3.11+](https://www.python.org/downloads/)_.
 
 ## 🛠 Installation
+PowerShell -ExecutionPolicy Bypass -File ".\PixelStreamingMultiple${streamType}\Windows\${streamType}Model\Samples\PixelStreaming\WebServers\SignallingWebServer\platform_scripts\cmd\Start_SignallingServer.ps1" --StreamerPort ${streamPort} --HttpPort ${httpPort} --SFUPort ${sfuPort} --HttpsPort ${httpsPort} --MatchmakerPort ${matchmakingPort} --UseMatchmaker True --MatchmakerAddress localhost --PublicIp localhost
 
 To install the required packages, follow these steps:
 
