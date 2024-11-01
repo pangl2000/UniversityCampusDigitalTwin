@@ -29,8 +29,8 @@ To install the required packages, follow these steps:
     pip install aiohttp
     pip install schedule
     pip install requests
-    pip install pyproj==1.8.5
-    pip install shapely
+    pip install pyproj
+    pip install shapely==1.8.5
     ```
 
 2. Open cmd in `UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/` and install these dependencies using npm install:
