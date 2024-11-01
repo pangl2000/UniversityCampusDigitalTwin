@@ -59,10 +59,12 @@ staticServer.on('connection', (ws) => {
 // API endpoint to handle model redirection
 app.get('/', (req, res) => {
     let project = req.query.project;
+    const streamUrlDynamic = `http://${window.location.hostname}:80`
+    const streamUrlStatic = `http://${window.location.hostname}:81`
     if (project === 'DynamicModel') {
-        res.redirect('http://localhost:80');
+        res.redirect(streamUrlDynamic);
     } else if (project === 'StaticModel') {
-        res.redirect('http://localhost:81');
+        res.redirect(streamUrlStatic);
     } else {
         res.send('Unknown project');
     }
@@ -90,10 +92,10 @@ app.get('/start-stream', (req, res) => {
     }
 
     // Command to start the signalling server and capture the PID
-    const startSignallingServerCommand = `PowerShell -ExecutionPolicy Bypass -Command "(Start-Process -FilePath 'powershell.exe' -ArgumentList '-File .\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model\\Samples\\PixelStreaming\\WebServers\\SignallingWebServer\\platform_scripts\\cmd\\Start_SignallingServer.ps1 --StreamerPort ${streamPort} --HttpPort ${httpPort} --SFUPort ${sfuPort} --HttpsPort ${httpsPort} --MatchmakerPort ${matchmakingPort} --UseMatchmaker True --MatchmakerAddress localhost --PublicIp localhost' -PassThru).Id"`;
+    const startSignallingServerCommand = `PowerShell -ExecutionPolicy Bypass -Command "(Start-Process -FilePath 'powershell.exe' -ArgumentList '-File .\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model\\Samples\\PixelStreaming\\WebServers\\SignallingWebServer\\platform_scripts\\cmd\\Start_SignallingServer.ps1 --StreamerPort ${streamPort} --HttpPort ${httpPort} --SFUPort ${sfuPort} --HttpsPort ${httpsPort} --MatchmakerPort ${matchmakingPort} --UseMatchmaker True --MatchmakerAddress ${window.location.hostname} --PublicIp ${window.location.hostname}' -PassThru).Id"`;
 
     // Command to start the Unreal Engine executable and capture the PID
-    const startExeCommand = `PowerShell -Command "(Start-Process -FilePath '.\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model.exe' -ArgumentList '-AudioMixer -PixelStreamingIP=localhost -PixelStreamingPort=${streamPort} -RenderOffscreen' -PassThru).Id"`;
+    const startExeCommand = `PowerShell -Command "(Start-Process -FilePath '.\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model.exe' -ArgumentList '-AudioMixer -PixelStreamingIP=${window.location.hostname} -PixelStreamingPort=${streamPort} -RenderOffscreen' -PassThru).Id"`;
 
     // Execute the command to start the signalling server and capture its PID
     exec(startSignallingServerCommand, (error, stdout) => {
@@ -167,9 +169,10 @@ app.get('/stop-stream', (req, res) => {
 
 // New API endpoint to fetch AP history from Flask
 app.get('/get_historical_data', async (req, res) => {
+    const flaskUrl = `http://127.0.0.1:5000/api/get_ap_history`
     try {
         // Make a request to the Flask server (assume it's running on http://127.0.0.1:5000)
-        const flaskResponse = await axios.get('http://127.0.0.1:5000/api/get_ap_history');
+        const flaskResponse = await axios.get(flaskUrl);
         res.json(flaskResponse.data); // Return the data to the frontend
     } catch (error) {
         console.error('Error fetching AP history from Flask:', error.message);

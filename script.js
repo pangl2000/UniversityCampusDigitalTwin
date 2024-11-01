@@ -160,8 +160,8 @@ viewDropdownButton.addEventListener('click', () => {
     contentContainer.appendChild(graphContainer);
 
     fetchAPHistory().then(() => {
-        populateDropdown();
-        handleAPChange();
+        populateDropdown(); // Populate dropdown after data is fetched
+        handleAPChange();   // Set up event listener for dropdown change after creating #ap-selector
     });
 });
 
@@ -230,8 +230,6 @@ function populateDropdown() {
         option.textContent = apName;
         apSelector.appendChild(option);
     });
-
-    console.log('Dropdown populated with AP names:', apNames);
 }
 
 // Function to plot the selected AP's data based on aps_history and aps_datetimes
@@ -338,22 +336,20 @@ async function fetchAPHistory() {
 // Function to handle the change event on the dropdown
 function handleAPChange() {
     const apSelector = document.getElementById('ap-selector');
-    apSelector.addEventListener('change', () => {
-        const selectedAP = apSelector.value;
+    if (apSelector) {
+        apSelector.addEventListener('change', () => {
+            const selectedAP = apSelector.value;
 
-        if (selectedAP && window.apData) {
-            const datetimes = window.apData.aps_datetimes;
-            const apHistory = window.apData.aps_history;
+            if (selectedAP && window.apData) {
+                const datetimes = window.apData.aps_datetimes;
+                const apHistory = window.apData.aps_history;
 
-            if (datetimes && apHistory) {
-                plotSpots(datetimes, apHistory, selectedAP);
-            } else {
-                console.error(`No data available for selected AP: ${selectedAP}`);
+                if (datetimes && apHistory) {
+                    plotSpots(datetimes, apHistory, selectedAP);
+                } else {
+                    console.error(`No data available for selected AP: ${selectedAP}`);
+                }
             }
-        }
-    });
+        });
+    }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    handleAPChange();
-});
