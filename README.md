@@ -41,10 +41,10 @@ To install the required packages, follow these steps:
    ```
    
 3. Setup Matchmaker and Signalling Web Servers.
-   3.1. Run matchmakerSetup.bat
-   3.2. Once Matchmaker Servers are ready exit terminals
-   3.3. Run signallingSetup.bat
-   3.4. Once Signalling Web Servers are ready exit terminals
+   3.1 Run matchmakerSetup.bat
+   3.2 Once Matchmaker Servers are ready exit terminals
+   3.3 Run signallingSetup.bat
+   3.4 Once Signalling Web Servers are ready exit terminals
 
 ## 🚀 Run the Project
 
