@@ -40,11 +40,11 @@ To install the required packages, follow these steps:
    npm install express ws cors axios
    ```
    
-3. Setup Matchmaker and Signalling Web Servers.
-   3.1 Run matchmakerSetup.bat
-   3.2 Once Matchmaker Servers are ready exit terminals
-   3.3 Run signallingSetup.bat
-   3.4 Once Signalling Web Servers are ready exit terminals
+3. Setup Matchmaker and Signalling Web Servers.<br>
+   3.1. Run matchmakerSetup.bat<br>
+   3.2. Once Matchmaker Servers are ready exit terminals<br>
+   3.3. Run signallingSetup.bat<br>
+   3.4. Once Signalling Web Servers are ready exit terminals
 
 ## 🚀 Run the Project
 
