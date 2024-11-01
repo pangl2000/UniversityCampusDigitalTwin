@@ -38,6 +38,7 @@ To install the required packages, follow these steps:
    ```bash
    npm init -y
    npm install express ws cors axios
+   npm install -g http-server
    ```
    
 3. Setup Matchmaker and Signalling Web Servers.<br>
