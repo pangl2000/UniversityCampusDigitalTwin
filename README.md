@@ -5,7 +5,8 @@ This guide will walk you through downloading the necessary files, installing dep
 ## 📥 Download
 
 1. **Download all files** from this GitHub repository.<br>
-_GitHub files are structured like this `UniversityCampusDigitalTwin-master.zip/UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/`_
+_GitHub files are structured like this:<br>
+`UniversityCampusDigitalTwin-master.zip/UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/`_
 
 2. **Download large files** from this google drive [link](https://drive.google.com/file/d/1jXK93D8Bur9EWruAC-QHEaEi-mES3-gF/view?usp=sharing) and extract the files.
    
