@@ -234,7 +234,10 @@ async function fetchAPHistory() {
     fetchStatus.textContent = 'Waiting for data to be retrieved...';
 
     try {
-        const response = await fetch(`${window.location.hostname}:8888/get_historical_data`);
+        // Explicitly use the full URL with the IP address and port
+        const apiUrl = `http://${window.location.hostname}:8888/get_historical_data`;
+        
+        const response = await fetch(apiUrl);
         
         if (!response.ok) {
             throw new Error('Network response was not ok');
