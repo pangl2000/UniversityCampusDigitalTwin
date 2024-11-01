@@ -6,4 +6,4 @@ powershell -Command "& {cd './PixelStreamingMultipleStatic/Windows/StaticModel/S
 
 REM Run Dynamic and Static Matchmaker once setup has completed
 powershell -Command "Start-Process 'cmd' '/c call run.bat' -WorkingDirectory './PixelStreamingMultipleDynamic/Windows/DynamicModel/Samples/PixelStreaming/WebServers/Matchmaker/platform_scripts/cmd/'"
-powershell -Command "Start-Process 'cmd' '/c call run.bat' -WorkingDirectory './PixelStreamingMultipleStatic/Windows/StaticModel/Samples/PixelStreaming/WebServers/Matchmaker/platform_scripts/cmd/'"
+powershell -Command "Start-Process 'cmd' '/c call run.bat --HttpPort 80 --MatchmakerPort 9998' -WorkingDirectory './PixelStreamingMultipleStatic/Windows/StaticModel/Samples/PixelStreaming/WebServers/Matchmaker/platform_scripts/cmd/'"
