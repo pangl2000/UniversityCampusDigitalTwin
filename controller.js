@@ -57,16 +57,20 @@ staticServer.on('connection', (ws) => {
 });
 
 // API endpoint to handle model redirection
-app.get('/', (req, res) => {
+app.get('/load-matchmaker', (req, res) => {
     let project = req.query.project;
-    const streamUrlDynamic = `http://${window.location.hostname}:80`
-    const streamUrlStatic = `http://${window.location.hostname}:81`
+    const streamUrlDynamic = `http://${req.hostname}:80`;
+    const streamUrlStatic = `http://${req.hostname}:81`;
+    
+    console.log(`Dynamic Stream URL: ${streamUrlDynamic}`);
+    console.log(`Static Stream URL: ${streamUrlStatic}`);
+    
     if (project === 'DynamicModel') {
-        res.redirect(streamUrlDynamic);
+        res.json({ url: streamUrlDynamic });
     } else if (project === 'StaticModel') {
-        res.redirect(streamUrlStatic);
+        res.json({ url: streamUrlStatic });
     } else {
-        res.send('Unknown project');
+        res.status(400).json({ error: 'Unknown project' });
     }
 });
 
@@ -92,10 +96,10 @@ app.get('/start-stream', (req, res) => {
     }
 
     // Command to start the signalling server and capture the PID
-    const startSignallingServerCommand = `PowerShell -ExecutionPolicy Bypass -Command "(Start-Process -FilePath 'powershell.exe' -ArgumentList '-File .\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model\\Samples\\PixelStreaming\\WebServers\\SignallingWebServer\\platform_scripts\\cmd\\Start_SignallingServer.ps1 --StreamerPort ${streamPort} --HttpPort ${httpPort} --SFUPort ${sfuPort} --HttpsPort ${httpsPort} --MatchmakerPort ${matchmakingPort} --UseMatchmaker True --MatchmakerAddress ${window.location.hostname} --PublicIp ${window.location.hostname}' -PassThru).Id"`;
+    const startSignallingServerCommand = `PowerShell -ExecutionPolicy Bypass -Command "(Start-Process -FilePath 'powershell.exe' -ArgumentList '-File .\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model\\Samples\\PixelStreaming\\WebServers\\SignallingWebServer\\platform_scripts\\cmd\\Start_SignallingServer.ps1 --StreamerPort ${streamPort} --HttpPort ${httpPort} --SFUPort ${sfuPort} --HttpsPort ${httpsPort} --MatchmakerPort ${matchmakingPort} --UseMatchmaker True --MatchmakerAddress localhost --PublicIp ${req.hostname}' -PassThru).Id"`;
 
     // Command to start the Unreal Engine executable and capture the PID
-    const startExeCommand = `PowerShell -Command "(Start-Process -FilePath '.\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model.exe' -ArgumentList '-AudioMixer -PixelStreamingIP=${window.location.hostname} -PixelStreamingPort=${streamPort} -RenderOffscreen' -PassThru).Id"`;
+    const startExeCommand = `PowerShell -Command "(Start-Process -FilePath '.\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model.exe' -ArgumentList '-AudioMixer -PixelStreamingIP=${req.hostname} -PixelStreamingPort=${streamPort} -RenderOffscreen' -PassThru).Id"`;
 
     // Execute the command to start the signalling server and capture its PID
     exec(startSignallingServerCommand, (error, stdout) => {

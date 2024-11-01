@@ -20,16 +20,36 @@ function generateUniqueIdentifier() {
 
 // Function to start the stream by sending a request to the server
 function startStream(streamType, sessionId) {
-    const query = new URLSearchParams({
-        streamType,
-        sessionId,
-    }).toString();
+    const project = streamType === 'static' ? 'StaticModel' : 'DynamicModel';
 
-    fetch(`http://${window.location.hostname}:8888/start-stream?${query}`)
+    // First, call the "/load-matchmaker" route to get the stream URL
+    fetch(`http://${window.location.hostname}:8888/load-matchmaker?project=${project}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load matchmaker');
+            }
+            return response.json(); // Get the URL from the JSON response
+        })
+        .then(data => {
+            console.log(`Received stream URL for project ${project}: ${data.url}`);
+            
+            // Set the iframe source dynamically
+            if (streamType === 'static') {
+                document.getElementById('static-iframe').src = data.url;
+            } else {
+                document.getElementById('dynamic-iframe').src = data.url;
+            }
+
+            // Start the streaming session
+            const query = new URLSearchParams({ streamType, sessionId }).toString();
+            return fetch(`http://${window.location.hostname}:8888/start-stream?${query}`);
+        })
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.error('Error starting stream:', error));
 }
+
+
 
 // Function to stop the stream by sending a request to the server
 function stopStream(sessionId) {
