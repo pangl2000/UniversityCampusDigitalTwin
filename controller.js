@@ -11,6 +11,8 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+const SESSION_TIMEOUT = 15000; // 30 seconds
+
 // WebSocket Servers for dynamic and static models
 let dynamicServer = new WebSocket.Server({ port: 8889 });
 let staticServer = new WebSocket.Server({ port: 8890 });
@@ -121,7 +123,8 @@ app.get('/start-stream', (req, res) => {
             processStore[sessionId] = {
                 signallingProcessId,
                 exeProcessId,
-                ports
+                ports,
+                lastAccess: Date.now()
             };
 
             res.send('Unreal Engine process started successfully.');
@@ -129,46 +132,60 @@ app.get('/start-stream', (req, res) => {
     });
 });
 
-// API to stop stream
-app.get('/stop-stream', (req, res) => {
+// API to handle heartbeat pings
+app.get('/heartbeat', (req, res) => {
     const { sessionId } = req.query;
+    if (processStore[sessionId]) processStore[sessionId].lastAccess = Date.now();
+    res.sendStatus(200);
+});
 
-    // Retrieve the process IDs and ports for the given sessionId
+// Periodically clean up sessions with no heartbeat
+setInterval(() => {
+    const now = Date.now();
+    for (const sessionId in processStore) {
+        if (now - processStore[sessionId].lastAccess > SESSION_TIMEOUT) {
+            console.log(`Cleaning up session ${sessionId}`);
+            terminateSession(sessionId);
+        }
+    }
+}, SESSION_TIMEOUT / 2);
+
+// Function to stop the session
+function terminateSession(sessionId) {
     const { signallingProcessId, exeProcessId, ports } = processStore[sessionId] || {};
-
     if (!signallingProcessId || !exeProcessId) {
-        return res.status(404).send(`No processes found for session ID: ${sessionId}`);
+        console.log(`No processes found for session ID: ${sessionId}`);
+        return;
     }
 
-    // Command to stop the Unreal Engine process and any child processes using taskkill
     const stopExeCommand = `taskkill /PID ${exeProcessId} /T /F`;
-
-    // Command to stop the signalling server and any child processes using taskkill
     const stopSignallingServerCommand = `taskkill /PID ${signallingProcessId} /T /F`;
 
-    // Execute the command to stop the Unreal Engine process first
     exec(stopExeCommand, (error) => {
         if (error) {
-            return res.status(500).send(`Error stopping Unreal Engine process: ${error.message}`);
+            console.error(`Error stopping Unreal Engine process: ${error.message}`);
+            return;
         }
         console.log(`Unreal Engine process with PID ${exeProcessId} and its child processes stopped`);
 
-        // Execute the command to stop the signalling server process after Unreal Engine process is stopped
         exec(stopSignallingServerCommand, (error) => {
             if (error) {
-                return res.status(500).send(`Error stopping Signalling Server: ${error.message}`);
+                console.error(`Error stopping Signalling Server: ${error.message}`);
+                return;
             }
             console.log(`Signalling Server process with PID ${signallingProcessId} and its child processes stopped`);
 
-            // Free the allocated ports
             freePorts(ports);
-
-            // Remove the session from the process store
             delete processStore[sessionId];
-
-            res.send('Unreal Engine and Signalling Server processes stopped successfully.');
         });
     });
+}
+
+// API to stop stream
+app.get('/stop-stream', (req, res) => {
+    const { sessionId } = req.query;
+    terminateSession(sessionId);
+    res.send('Stream stopped.');
 });
 
 // New API endpoint to fetch AP history from Flask

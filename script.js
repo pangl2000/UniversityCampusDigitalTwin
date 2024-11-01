@@ -13,6 +13,8 @@ const exploreDynamicButton = document.getElementById('explore-dynamic');
 const viewWifiButton = document.getElementById('view-wifi');
 const backToOverviewButtons = document.querySelectorAll('.back-to-overview');
 
+let heartbeatInterval;
+
 // Function to generate a unique identifier for each session
 function generateUniqueIdentifier() {
     return Date.now();  // Use a simple timestamp as a session ID
@@ -49,8 +51,6 @@ function startStream(streamType, sessionId) {
         .catch(error => console.error('Error starting stream:', error));
 }
 
-
-
 // Function to stop the stream by sending a request to the server
 function stopStream(sessionId) {
     fetch(`http://${window.location.hostname}:8888/stop-stream?sessionId=${sessionId}`)
@@ -59,10 +59,44 @@ function stopStream(sessionId) {
         .catch(error => console.error('Error stopping stream:', error));
 }
 
+// Function to stop the streams
+window.addEventListener('beforeunload', (event) => {
+    // Get the current session ID if it exists
+    const staticPageSessionId = document.getElementById('static-page').getAttribute('data-session-id');
+    const dynamicPageSessionId = document.getElementById('dynamic-page').getAttribute('data-session-id');
+    
+    // Send a request to stop the stream for each active session
+    if (staticPageSessionId) {
+        stopStream(staticPageSessionId);
+    }
+    if (dynamicPageSessionId) {
+        stopStream(dynamicPageSessionId);
+    }
+});
+
+// Function to start heartbeat pings to the server
+function startHeartbeat(sessionId) {
+    if (heartbeatInterval) {
+        clearInterval(heartbeatInterval);
+    }
+    heartbeatInterval = setInterval(() => {
+        console.log(`Sending heartbeat for session ID: ${sessionId}`);
+        fetch(`http://${window.location.hostname}:8888/heartbeat?sessionId=${sessionId}`)
+            .catch(error => console.error('Heartbeat error:', error));
+    }, 5000); // Send heartbeat every 5 seconds
+}
+
+// Function to stop heartbeat pings
+function stopHeartbeat() {
+    if (heartbeatInterval) {
+        clearInterval(heartbeatInterval);
+        heartbeatInterval = null;
+    }
+}
+
 // Function to handle page switching with sliding transitions
 function switchPage(fromPage, toPage, streamType = null, direction = 'left') {
     let sessionId = generateUniqueIdentifier();
-
     toPage.setAttribute('data-session-id', sessionId);
 
     let outTransform, inTransform;
@@ -92,6 +126,7 @@ function switchPage(fromPage, toPage, streamType = null, direction = 'left') {
             fromPage.style.display = 'none';
 
             if (streamType) {
+                startHeartbeat(sessionId); // Start heartbeat when stream starts
                 startStream(streamType, sessionId);
             }
         }, 500);
@@ -105,6 +140,7 @@ function backToOverview(fromPage) {
 
         if (sessionId) {
             stopStream(sessionId);
+            stopHeartbeat(); // Stop heartbeat when returning to overview
         }
     }
     switchPage(fromPage, overviewPage, null, 'right');
