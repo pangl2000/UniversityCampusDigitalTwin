@@ -19,7 +19,7 @@ _**Note**: Make sure you have installed [Docker Desktop](https://www.docker.com/
 
 To install the required packages, follow these steps:
 
-1. Open a terminal or command prompt and run the following commands to install dependencies:
+1. Open a terminal or command prompt and run the following commands to install python dependencies:
 
     ```bash
     pip install Flask
@@ -33,11 +33,18 @@ To install the required packages, follow these steps:
     pip install shapely
     ```
 
-2. Navigate to the `externalDB` folder, open a command prompt, and run the following command to set up the database:
+2. Also install these dependencies using npm install:
 
-    ```bash
-    docker-compose up --build
-    ```
+   ```bash
+   npm init -y
+   npm install express ws cors axios
+   ```
+   
+3. Setup Matchmaker and Signalling Web Servers.
+   3.1. Run matchmakerSetup.bat
+   3.2. Once Matchmaker Servers are ready exit terminals
+   3.3. Run signallingSetup.bat
+   3.4. Once Signalling Web Servers are ready exit terminals
 
 ## 🚀 Run the Project
 
