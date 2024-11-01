@@ -33,7 +33,7 @@ To install the required packages, follow these steps:
     pip install shapely
     ```
 
-2. Also install these dependencies using npm install in `UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/`:
+2. Open cmd in `UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/` and install these dependencies using npm install:
 
    ```bash
    npm init -y
