@@ -4,11 +4,11 @@ This guide will walk you through downloading the necessary files, installing dep
 
 ## 📥 Download
 
-1. **Download all files** from this GitHub repository.</br><br>
+1. **Download all files** from this GitHub repository.<br>
 _GitHub files are structured like this UniversityCampusDigitalTwin-master.zip/UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/_
 3. **Download large files** from this google drive [link](https://drive.google.com/file/d/1jXK93D8Bur9EWruAC-QHEaEi-mES3-gF/view?usp=sharing) and extract the files. 
 4. **Place all downloaded folders** in the project's root directory.</br><br>
-_Extract UniversityCampusDigitalTwin-master.zip. To avoid any issues extract PixelStreamingMultiple.zip directly to ".UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/"._</br><br> 
+_Extract UniversityCampusDigitalTwin-master.zip. To avoid any issues extract PixelStreamingMultiple.zip directly to ".UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/"._<br> 
 _**Note**: Make sure you have installed [Docker Desktop](https://www.docker.com/products/docker-desktop/) - [node.js](https://nodejs.org/en) - [python 3.11+](https://www.python.org/downloads/)_.
 
 ## 🛠 Installation
