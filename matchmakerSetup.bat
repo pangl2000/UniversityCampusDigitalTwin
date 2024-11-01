@@ -1,18 +1,9 @@
 @echo off
-cd /d "C:\Path\To\Your\Project" 
 
-REM Run Dynamic Matchmaker setup and run
-call ".\PixelStreamingMultipleDynamic\Windows\DynamicModel\Samples\PixelStreaming\WebServers\Matchmaker\platform_scripts\cmd\setup.bat"
-call ".\PixelStreamingMultipleDynamic\Windows\DynamicModel\Samples\PixelStreaming\WebServers\Matchmaker\platform_scripts\cmd\run.bat"
+REM Run Dynamic and Static Matchmaker setup
+powershell -Command "& {cd './PixelStreamingMultipleDynamic/Windows/DynamicModel/Samples/PixelStreaming/WebServers/Matchmaker/platform_scripts/cmd/'; ./setup.bat}"
+powershell -Command "& {cd './PixelStreamingMultipleStatic/Windows/StaticModel/Samples/PixelStreaming/WebServers/Matchmaker/platform_scripts/cmd/'; ./setup.bat}"
 
-REM Run Dynamic Signalling Server setup and run
-call ".\PixelStreamingMultipleDynamic\Windows\DynamicModel\Samples\PixelStreaming\WebServers\SignallingWebServer\platform_scripts\cmd\setup.bat"
-call ".\PixelStreamingMultipleDynamic\Windows\DynamicModel\Samples\PixelStreaming\WebServers\SignallingWebServer\platform_scripts\cmd\run_local.bat"
-
-REM Run Static Matchmaker setup and run
-call ".\PixelStreamingMultipleStatic\Windows\StaticModel\Samples\PixelStreaming\WebServers\Matchmaker\platform_scripts\cmd\setup.bat"
-call ".\PixelStreamingMultipleStatic\Windows\StaticModel\Samples\PixelStreaming\WebServers\Matchmaker\platform_scripts\cmd\run.bat"
-
-REM Run Static Signalling Server setup and run
-call ".\PixelStreamingMultipleStatic\Windows\StaticModel\Samples\PixelStreaming\WebServers\SignallingWebServer\platform_scripts\cmd\setup.bat"
-call ".\PixelStreamingMultipleStatic\Windows\StaticModel\Samples\PixelStreaming\WebServers\SignallingWebServer\platform_scripts\cmd\run_local.bat"
+REM Run Dynamic and Static Matchmaker once setup has completed
+powershell -Command "Start-Process 'cmd' '/c call run.bat' -WorkingDirectory './PixelStreamingMultipleDynamic/Windows/DynamicModel/Samples/PixelStreaming/WebServers/Matchmaker/platform_scripts/cmd/'"
+powershell -Command "Start-Process 'cmd' '/c call run.bat' -WorkingDirectory './PixelStreamingMultipleStatic/Windows/StaticModel/Samples/PixelStreaming/WebServers/Matchmaker/platform_scripts/cmd/'"
