@@ -24,7 +24,7 @@ function startStream(streamType, sessionId) {
         sessionId,
     }).toString();
 
-    fetch(`http://localhost:8888/start-stream?${query}`)
+    fetch(`http://${window.location.hostname}:8888/start-stream?${query}`)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.error('Error starting stream:', error));
@@ -32,7 +32,7 @@ function startStream(streamType, sessionId) {
 
 // Function to stop the stream by sending a request to the server
 function stopStream(sessionId) {
-    fetch(`http://localhost:8888/stop-stream?sessionId=${sessionId}`)
+    fetch(`http://${window.location.hostname}:8888/stop-stream?sessionId=${sessionId}`)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.error('Error stopping stream:', error));
@@ -234,7 +234,7 @@ async function fetchAPHistory() {
     fetchStatus.textContent = 'Waiting for data to be retrieved...';
 
     try {
-        const response = await fetch(`http://127.0.0.1:8888/get_historical_data`);
+        const response = await fetch(`${window.location.hostname}:8888/get_historical_data`);
         
         if (!response.ok) {
             throw new Error('Network response was not ok');
