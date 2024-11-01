@@ -12,7 +12,7 @@ _GitHub files are structured like this:<br>
    
 3. **Place all downloaded folders** in the project's root directory.<br>
 _Extract `UniversityCampusDigitalTwin-master.zip`. To avoid any issues extract `PixelStreamingMultiple.zip` directly to: <br>
-`.UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/`._<br></br> 
+`UniversityCampusDigitalTwin-master/UniversityCampusDigitalTwin-master/`._<br></br> 
 _**Note**: Make sure you have installed [Docker Desktop](https://www.docker.com/products/docker-desktop/) - [node.js](https://nodejs.org/en) - [python 3.11+](https://www.python.org/downloads/)_.
 
 ## 🛠 Installation
