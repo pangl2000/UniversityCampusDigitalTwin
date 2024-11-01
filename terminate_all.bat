@@ -3,7 +3,7 @@ echo Terminating processes...
 
 :: Step 1: Stop Docker Compose containers (pause them for future runs)
 echo Stopping Docker Compose containers...
-powershell -Command "Start-Process 'docker-compose' 'stop' -WorkingDirectory './externalDB' -WindowStyle Hidden"
+powershell -Command "Start-Process 'docker-compose' 'stop' -WorkingDirectory './externalDB' "
 
 :: Step 2: Terminate PowerShell processes running your custom scripts
 taskkill /F /IM powershell.exe

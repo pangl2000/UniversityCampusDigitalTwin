@@ -90,7 +90,7 @@ app.get('/start-stream', (req, res) => {
     }
 
     // Command to start the signalling server and capture the PID
-    const startSignallingServerCommand = `PowerShell -Command "(Start-Process -FilePath 'powershell.exe' -ArgumentList '-File .\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model\\Samples\\PixelStreaming\\WebServers\\SignallingWebServer\\platform_scripts\\cmd\\Start_SignallingServer.ps1 --StreamerPort ${streamPort} --HttpPort ${httpPort} --SFUPort ${sfuPort} --HttpsPort ${httpsPort} --MatchmakerPort ${matchmakingPort} --UseMatchmaker True --MatchmakerAddress localhost --PublicIp localhost' -WindowStyle Hidden -PassThru).Id"`;
+    const startSignallingServerCommand = `PowerShell -Command "(Start-Process -FilePath 'powershell.exe' -ArgumentList '-File .\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model\\Samples\\PixelStreaming\\WebServers\\SignallingWebServer\\platform_scripts\\cmd\\Start_SignallingServer.ps1 --StreamerPort ${streamPort} --HttpPort ${httpPort} --SFUPort ${sfuPort} --HttpsPort ${httpsPort} --MatchmakerPort ${matchmakingPort} --UseMatchmaker True --MatchmakerAddress localhost --PublicIp localhost'  -PassThru).Id"`;
 
     // Command to start the Unreal Engine executable and capture the PID
     const startExeCommand = `PowerShell -Command "(Start-Process -FilePath '.\\PixelStreamingMultiple${streamType}\\Windows\\${streamType}Model.exe' -ArgumentList '-AudioMixer -PixelStreamingIP=localhost -PixelStreamingPort=${streamPort} -RenderOffscreen' -PassThru).Id"`;

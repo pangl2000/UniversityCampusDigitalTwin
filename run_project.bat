@@ -16,7 +16,7 @@ if errorlevel 1 (
 echo Docker is running. Proceeding with the script...
 
 :: Step 1: Run contextBrokerDataHandler.py in ./backendCodes/ hidden
-powershell -Command "Start-Process 'python' 'apiForSqlData.py' -WorkingDirectory './backendCodes' -WindowStyle Hidden"
+powershell -Command "Start-Process 'python' 'apiForSqlData.py' -WorkingDirectory './backendCodes' "
 
 :: Step 2: Start Docker containers using docker-compose
 echo Starting Docker containers...
@@ -37,22 +37,22 @@ if %errorlevel% neq 0 (
 echo All containers are running. Proceeding...
 
 :: Step 3: Run contextBrokerDataHandler.py in ./backendCodes/ hidden
-powershell -Command "Start-Process 'python' 'contextBrokerDataHandler.py' -WorkingDirectory './backendCodes' -WindowStyle Hidden"
+powershell -Command "Start-Process 'python' 'contextBrokerDataHandler.py' -WorkingDirectory './backendCodes' "
 
 :: Step 4: Run 1a_RunDynamicMatchmakerServer.bat hidden
-powershell -Command "Start-Process 'cmd' '/c call 1a_RunDynamicMatchmakerServer.bat' -WorkingDirectory '.' -WindowStyle Hidden"
+powershell -Command "Start-Process 'cmd' '/c call 1a_RunDynamicMatchmakerServer.bat' -WorkingDirectory '.' "
 
 :: Step 5: Run 2a_RunStaticMatchmakerServer.bat hidden
-powershell -Command "Start-Process 'cmd' '/c call 2a_RunStaticMatchmakerServer.bat' -WorkingDirectory '.' -WindowStyle Hidden"
+powershell -Command "Start-Process 'cmd' '/c call 2a_RunStaticMatchmakerServer.bat' -WorkingDirectory '.' "
 
 :: Step 5.5: Delay for 5 seconds
 timeout /t 5 /nobreak
 
 :: Step 6: Run node controller.js hidden
-powershell -Command "Start-Process 'node' 'controller.js' -WindowStyle Hidden"
+powershell -Command "Start-Process 'node' 'controller.js' "
 
 :: Step 7: Run http-server on port 3000 hidden (use full path to avoid conflict)
-powershell -Command "Start-Process 'http-server.cmd' '-p 3000' -WindowStyle Hidden"
+powershell -Command "Start-Process 'http-server.cmd' '-p 3000' "
 
 :: Step 8: Open http://127.0.0.1:3000 in the default browser (no need to hide browser)
 start "" http://127.0.0.1:3000
@@ -61,4 +61,4 @@ start "" http://127.0.0.1:3000
 timeout /t 5 /nobreak
 
 :: Step 10: Run dataHandler.py in ./backendCodes/ hidden
-powershell -Command "Start-Process 'python' 'dataHandler.py' -WorkingDirectory './backendCodes' -WindowStyle Hidden"
+powershell -Command "Start-Process 'python' 'dataHandler.py' -WorkingDirectory './backendCodes' "
